@@ -103,3 +103,32 @@ class APITest(APITestCase):
         url = reverse('trips_detail', kwargs={'pk': trip.id})
         response = self.client.delete(url)
         self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT, url)
+
+
+from .models import Trip
+
+class APITest(APITestCase):
+    def test_list(self):
+        response = self.client.get(reverse('trip_list'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_detail(self):
+
+        test_user = get_user_model().objects.create_user(username='Admin',password='123456')
+        test_user.save()
+
+        test_trip = Trip.objects.create(
+            owner = test_user,
+            title = 'Title of Blog',
+            comments = 'Words about the trip'
+        )
+        test_trip.save()
+
+        response = self.client.get(reverse('trip_detail', args=[1]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, {
+            'id':1,
+            'title': test_trip.title,
+            'comments': test_trip.comments,
+            'owner': test_user.id,
+        })
