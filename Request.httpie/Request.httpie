@@ -1,0 +1,12 @@
+http -v PUT httpbin.org/put API-Key:foo hello=world
+
+// Separate commands with commented lines (//)
+http DELETE example.org/todos/7
+
+// Request a Google search
+http www.google.com search=='HTTPie logo' tbm==isch
+
+// Use multiple lines for a single command
+http www.google.com
+    search=='HTTPie logo'
+    tbm==isch

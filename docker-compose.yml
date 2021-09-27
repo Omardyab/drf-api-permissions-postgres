@@ -8,3 +8,8 @@ services:
       - .:/code
     ports:
       - "8001:8000"
+  db:
+    image: postgres:11
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
